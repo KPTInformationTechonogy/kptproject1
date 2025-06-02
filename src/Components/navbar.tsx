@@ -19,13 +19,13 @@ const NavBar = () => {
                         className="rounded-full ring-2 ring-white"
                     />
                 </Link>
-                <h1 className="hidden lg:block text-xl font-bold text-white font-sans tracking-wide">
-                    Kano Process Trading Company
+                <h1 className="hidden lg:block text-lg font-bold text-white font-sans tracking-wide">
+                    <span className="font-sans">Kano Process Trading </span> <span>Company</span>
                 </h1>
             </div>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden xl:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-8">
                 <div className="flex items-center gap-6 text-white font-sans font-semibold text-sm">
                     <Link href="/" className="hover:text-yellow-200 transition-colors">Home</Link>
                     <Link href="/services" className="hover:text-yellow-200 transition-colors">Services</Link>
