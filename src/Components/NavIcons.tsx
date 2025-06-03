@@ -32,12 +32,12 @@ const NavIcons = () => {
                     <div className="mt-2 cursor-pointer">Logout</div>
                 </div>
             )}
-            <Image src={Notification} alt="cart" width={28} height={28} className="cursor-pointer" />
+            {/* <Image src={Notification} alt="cart" width={28} height={28} className="cursor-pointer" />
             <div className="relative cursor-pointer">
                 <Image src={Cart} alt="cart" width={28} height={28} className="cursor-pointer" onClick={() => setIsCartOpen((prev) => !prev)}/>
                 <div className="absolute -top-4 -right-4 w-6 h-6 bg-blue-600 text-white text-sm flex items-start justify-center rounded-full">2</div>
                 {isCartOpen && <CartModal />}
-            </div>
+            </div> */}
         </div>
     );
 }

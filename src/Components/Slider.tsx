@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import tap from "@/images/tap.png";
 import decoration from "@/images/wpcs.png";
+import kptshelves from "@/images/KPT Shelves.png";
 import furniture from "@/images/home-dec.jpeg";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -21,7 +22,7 @@ const Slider = () => {
             id: 2,
             title: "Furniture Materials Collection",
             description: "Sale! Up to 20% off!",
-            img: tap,
+            img: kptshelves,
             url: "/",
         },
         {
