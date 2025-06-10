@@ -10,11 +10,31 @@ export default function ContactUsForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: handle form submission (e.g., API call or Email service)
-    alert("Message sent successfully!");
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("http://localhost:8000/api/contact", {
+      method: "POST",
+      body: new URLSearchParams(form),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    if (response.ok) {
+      alert("Message sent successfully!");
+      setForm({ name: "", email: "", message: "" });
+    } else {
+      const error = await response.json();
+      alert("Error: " + error.detail);
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("Something went wrong. Please try again later.");
+  }
+};
+
 
   return (
     <section className="py-16 px-4 sm:px-8 lg:px-24 bg-gray-50 text-gray-900">
