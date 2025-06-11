@@ -14,7 +14,7 @@ def send_contact_email(
     body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
     msg = MIMEText(body)
     msg["Subject"] = "New Contact Form Submission"
-    msg["From"] = "aliumukhtar123@gmail.vom"
+    msg["From"] = "aliumukhtar123@gmail.com"
     msg["To"] = "kptinformationtechnology@example.com"
 
     try:
