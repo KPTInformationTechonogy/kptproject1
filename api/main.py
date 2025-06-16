@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 import time
 from .database import Base, engine, SessionLocal, get_db
 from . import models, schemas
-from api.routes import contact
+from .routers import auth
 from typing import Optional
 from typing import List
 from datetime import datetime
@@ -105,3 +105,5 @@ def update_products(id: int, updated_products: schemas.ProductUpdate, db: Sessio
 
     return product
     
+
+app.include_router(auth.router)
