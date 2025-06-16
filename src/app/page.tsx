@@ -1,6 +1,5 @@
 // "use client"
 import ProductList from "@/Components/ProductList";
-import About from "@/Components/about";
 import ContactUS from "@/Components/ContactUs";
 import Slider from "@/Components/Slider";
 import ImageSlider from "@/Components/ImageSlider";

@@ -1,17 +1,17 @@
 "use client"
 import Image from "next/image";
 import Link from "next/link";
-import Cart from "@/images/shopping_cart.png";
+// import Cart from "@/images/shopping_cart.png";
 import Profile from "@/images/account_circle.png";
-import Notification from "@/images/notifications.png";
+// import Notification from "@/images/notifications.png";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import CartModal from "./cartModal";
+// import CartModal from "./cartModal";
 
 
 const NavIcons = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [isCartOpen, setIsCartOpen] = useState(false);
+    // const [isCartOpen, setIsCartOpen] = useState(false);
     const router = useRouter();
     const isLoggedIn = false;
 

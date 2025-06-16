@@ -4,13 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Hinges from "@/images/Hinges - Copy.png";
 import Drywall from "@/images/Drywall.png";
-import furniture from "@/images/furniture.png";
 
 const products = [
   {
     id: 1,
     name: "Door Hinges",
-    price: "₦1,500",
+    price: "₦41,500",
     description: "High-quality steel hinges for all door types",
     primaryImage: Hinges,
     secondaryImage: Drywall,
