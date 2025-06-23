@@ -24,13 +24,11 @@ class Users(Base, BaseMixin):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    business_id = Column(Integer, ForeignKey("businesses.id"))
     name = Column(String, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, index=True, nullable=False)
     role = Column(String, index=True, nullable=False)
 
-    business = relationship("Businesses", back_populates="users")
     orders = relationship("Orders", back_populates="user", cascade="all, delete-orphan")
     cart_items = relationship("Cart", back_populates="user", cascade="all, delete-orphan")
 
@@ -38,12 +36,12 @@ class Businesses(Base, BaseMixin):
     __tablename__ = "businesses"
 
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String, index=True, nullable=False)
     description = Column(String, index=True, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     phone_number = Column(Integer, unique=True, index=True, nullable=False)
     
-    users = relationship("Users", back_populates="business", cascade="all, delete-orphan")
     products = relationship("Products", back_populates="business", cascade="all, delete-orphan")  # ✅ Added
 
 class Products(Base, BaseMixin):
@@ -55,7 +53,7 @@ class Products(Base, BaseMixin):
     size = Column(String, index=True, nullable=False)
     description = Column(String, index=True, nullable=False)
     category = Column(String, index=True, nullable=False)
-    quantity = Column(Integer, index=True, nullable=False)
+    quantity_in_carton = Column(Integer, index=True, nullable=False)
     price = Column(Integer, index=True, nullable=False)
     image_url = Column(String, index=True, nullable=False)
 

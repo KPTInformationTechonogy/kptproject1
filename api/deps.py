@@ -1,42 +1,80 @@
 from typing import Annotated
-from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from passlib.context import CryptContext
 from jose import jwt, JWTError
+from sqlalchemy.orm import Session
 from dotenv import load_dotenv
+from passlib.context import CryptContext
 import os
-from .database import SessionLocal
+from .database import SessionLocal, get_db
+from .models import Users
 
 load_dotenv()
 
+# Validate environment variables
 SECRET_KEY = os.getenv('AUTH_SECRET_KEY')
 ALGORITHM = os.getenv('AUTH_ALGORITHM')
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-        
-        
-db_dependency = Annotated(Session, Depends(get_db))
+if not SECRET_KEY or not ALGORITHM:
+    raise ValueError("Missing AUTH_SECRET_KEY or AUTH_ALGORITHM in environment variables")
 
-bcrypt_content = CryptContext(schemas=['bcrypt'], deprecated='auto')
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl='auth/token')
-oauth2_bearer_dependency = Annotated(str, Depends(oauth2_bearer))
+bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
-async def get_current_user(token: oauth2_bearer_dependency):
+async def get_current_user(
+    token: str = Depends(oauth2_bearer),
+    db: Session = Depends(get_db)
+) -> Users:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username:str = payload.get('sub')
-        user_id:int = payload.get('id')
-        if username is None or user_id is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="could not validate user")
-        return {"username":username,"id":id}
+        email: str = payload.get('sub')
+        user_id: int = payload.get('id')
+        if email is None or user_id is None:
+            raise credentials_exception
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate user")
+        raise credentials_exception
     
-    
-user_dependency = Annotated[dict, Depends(get_current_user)]
+    user = db.query(Users).filter(Users.id == user_id).first()
+    if user is None:
+        raise credentials_exception
+    return user
+
+async def get_current_active_user(
+    current_user: Users = Depends(get_current_user)
+) -> Users:
+    if not current_user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Inactive user"
+        )
+    return current_user
+
+def admin_required(
+    current_user: Users = Depends(get_current_active_user)
+) -> Users:
+    if current_user.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin privileges required"
+        )
+    return current_user
+
+# Dependency type aliases
+user_dependency = Annotated[Users, Depends(get_current_active_user)]
+admin_dependency = Annotated[Users, Depends(admin_required)]
+
+__all__ = [
+    "get_db",
+    "get_current_user",
+    "get_current_active_user",
+    "admin_required",
+    "user_dependency",
+    "admin_dependency",
+    "bcrypt_context",
+    "oauth2_bearer"
+]

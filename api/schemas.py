@@ -49,15 +49,16 @@ class UserBase(BaseModel):
     role: str
 
 class UserCreate(UserBase):
-    business_id: int
+    pass
 
 class UserUpdate(UserBase):
     is_active: Optional[bool]
 
-class User(UserBase, TimestampMixin):
-    id: int
-    business_id: int
-
+class User(BaseModel):
+    name:str
+    email:str
+    role:str
+    
     class Config:
         orm_mode = True
 
@@ -188,3 +189,8 @@ class Product(ProductBase):
 
     class Config:
         orm_mode = True
+        
+        
+class Token(BaseModel):
+    access_token:str
+    token_type:str
