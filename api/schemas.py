@@ -68,7 +68,7 @@ class ProductBase(BaseModel):
     size: str
     description: str
     category: str
-    quantity: int
+    quantity_in_carton: int
     price: int
     image_url: str
 
@@ -80,7 +80,6 @@ class ProductUpdate(ProductBase):
 
 class Product(ProductBase, TimestampMixin):
     id: int
-    business_id: int
 
     class Config:
         orm_mode = True
