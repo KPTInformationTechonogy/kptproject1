@@ -2,7 +2,9 @@ import Image from "next/image";
 import Filters from "@/Components/filters";
 import OtherProducts from "@/Components/otherProducts"
 import decoration from "@/images/decoration.webp"
+import Skeleton from "@/Components/Skeleton";
 import Product from "@/Components/ProductList";
+import { Suspense } from "react";
 const ListPage = () => {
     return (
         <div className="mt-24 relative px-4 md:px-8 lg:px-16 xl:px-32">
@@ -21,9 +23,11 @@ const ListPage = () => {
             <Filters />
             {/* Products */}
             <h1 className="mt-12 text-xl">Furniture hardwares for you!</h1>
+            <Suspense fallback={<Skeleton/>}>
             <Product />
             {/* Other Products */}
             <OtherProducts />
+            </Suspense>
         </div>
     );
 }

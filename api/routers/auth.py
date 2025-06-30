@@ -11,6 +11,7 @@ from ..database import get_db
 from ..models import Users
 from ..deps import bcrypt_context, admin_required
 from ..schemas import UserCreate
+from ..deps import get_current_active_user
 
 load_dotenv()
 
@@ -79,6 +80,9 @@ async def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
     }
 
 
+@router.get("/me")
+async def read_users_me(current_user: Users = Depends(get_current_active_user)):
+    return current_user
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
@@ -103,3 +107,5 @@ async def login_for_access_token(
 @router.get("/admin/dashboard")
 def admin_dashboard(current_admin: Users = Depends(admin_required)):
     return {"message": f"Welcome Admin {current_admin.name}"}
+
+
