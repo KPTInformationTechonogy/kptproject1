@@ -5,6 +5,7 @@ import Location from "@/Components/Location";
 import aliyu from "@/images/aliyu.jpg";
 import ismail from "@/images/ismail.jpg";
 
+
 import {
 BuildingOffice2Icon,
 LightBulbIcon,
@@ -42,7 +43,7 @@ const navItems = [
 return (
 <div className="flex min-h-screen bg-white text-gray-900">
     {/* Sidebar Navigation */}
-    <aside className="w-1/3 bg-gray-50 border-r border-gray-200 p-6 sticky h-[100vh] hidden lg:block">
+        <aside className="w-1/3 bg-gray-50 border-r border-gray-200 p-6 sticky h-[100vh] hidden lg:block">
     <div className="sticky top-24">
         <h2 className="text-xl font-bold text-yellow-700 mb-8 flex items-center gap-2">
         <BuildingOffice2Icon className="h-6 w-6" />

@@ -22,20 +22,14 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],  # ✅ Your real frontend origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 # Database connection
-try:
-    conn = psycopg2.connect(host="localhost", database="ecommerce", user="postgres", password="Aaliiyuu123", cursor_factory=RealDictCursor)
-    cursor = conn.cursor()
-    print("Database connection successful")
-except Exception as error:
-    print("Database connection failed")
-    print(f"Error: {error}")
-    time.sleep(2)
+
 
 
 

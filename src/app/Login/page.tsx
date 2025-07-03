@@ -1,31 +1,36 @@
-"use client"
-import { useState, useContext } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import AuthContext from '@/app/context/AuthContext'
+"use client";
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useAuth } from '@/app/context/AuthContext';
 
 const LoginPage = () => {
-    const { login } = useContext(AuthContext)
-    const router = useRouter()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState("")
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setIsLoading(true)
-        setError("")
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError("");
 
-        try {
-            await login(email, password)
-            router.push('/dashboard')
-        } catch (err) {
-            setError(err.message || "Login failed. Please try again.")
-        } finally {
-            setIsLoading(false)
-        }
+  try {
+    await login(email, password);
+    // Redirect handled by AuthContext
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      setError(err.message || "Login failed. Please try again.");
+    } else {
+      setError("An unknown error occurred.");
     }
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

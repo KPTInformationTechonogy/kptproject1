@@ -2,38 +2,38 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
-export async function GET(request: Request) {
-const cookieStore = cookies()
-const token = cookieStore.get('auth_token')?.value
+export async function GET() {
+  const cookieStore = await cookies(); // ✅ must await in app router
+  const token = cookieStore.get('auth_token')?.value;
 
-if (!token) {
+  if (!token) {
     return NextResponse.json(
-    { error: 'Not authenticated' },
-    { status: 401 }
-    )
-}
+      { error: 'Not authenticated' },
+      { status: 401 }
+    );
+  }
 
-try {
+  try {
     const response = await fetch(`${process.env.BACKEND_URL}/auth/me`, {
-    headers: {
+      headers: {
         Authorization: `Bearer ${token}`,
-    },
-    })
+      },
+    });
 
     if (!response.ok) {
-    return NextResponse.json(
+      return NextResponse.json(
         { error: 'Token verification failed' },
         { status: response.status }
-    )
+      );
     }
 
-    const user = await response.json()
-    return NextResponse.json(user)
-} catch (error) {
-    console.error('Token verification error:', error)
+    const user = await response.json();
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error('Token verification error:', error);
     return NextResponse.json(
-    { error: 'Internal server error' },
-    { status: 500 }
-    )
-}
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
 }

@@ -11,6 +11,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@shadcn/ui": "^0.0.4",
+    "@tailwindcss/forms": "^0.5.10",
     "@wix/sdk": "^1.15.20",
     "@wix/stores": "^1.0.434",
     "axios": "^1.10.0",
